@@ -1,0 +1,168 @@
+Customer
+- id: Long
+- firstName: String
+- lastName: String
+- address: String
+- postal_code: String
+- phone: String
+- create_date: Date
+- last_update: Date
+- division: Division
+- carts: Set<Cart>
++ Customer()
+
+Division
+- id: Long
+- division_name: String
+- create_date: Date
+- last_update: Date
+- country: Country
+- country_ID: Long
+- customers: Set<Customer>
++ Division()
++ setCountry(country: Country): void
+
+Country
+- id: Long
+- country_name: String
+- create_date: Date
+- last_update: Date
+- divisions: Set<Division>
++ Country()
+
+Cart
+- id: Long
+- orderTrackingNumber: String
+- package_price: BigDecimal
+- party_size: int
+- status: StatusType
+- create_date: Date
+- last_update: Date
+- customer: Customer
+- cartItem: Set<CartItem>
++ Cart()
+
+CartItem
+- id: Long
+- vacation: Vacation
+- excursions: Set<Excursion>
+- cart: Cart
+- create_date: Date
+- last_update: Date
++ CartItem()
+
+Vacation
+- id: Long
+- vacation_title: String
+- description: String
+- travel_price: BigDecimal
+- image_URL: String
+- create_date: Date
+- last_update: Date
+- excursions: Set<Excursion>
++ Vacation()
+
+public enum StatusType {
+    PENDING,
+    ORDERED,
+    CANCELLED
+}
+
+Excursion
+- id: Long
+- excursion_title: String
+- excursion_price: BigDecimal
+- image_URL: String
+- create_date: Date
+- last_update: Date
+- vacation: Vacation
+- cartitems: Set<CartItem>
++ Excursion()
+
+HEre is the ERD Diagram
+-- Enumeration
+enum STATUSTYPE {
+    PENDING,
+    ORDERED,
+    CANCELED
+}
+
+-- CARTS Table
+CREATE TABLE CARTS (
+    Cart_ID BIGINT PRIMARY KEY,
+    Package_Price DOUBLE(10),
+    Party_Size INT(10),
+    Status STATUSTYPE,
+    Order_Tracking_Number VARCHAR(255),
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP,
+    Customer_ID BIGINT FOREIGN KEY
+);
+
+-- CUSTOMERS Table
+CREATE TABLE CUSTOMERS (
+    Customer_ID BIGINT PRIMARY KEY,
+    First_Name VARCHAR(255),
+    Last_Name VARCHAR(255),
+    Address VARCHAR(255),
+    City VARCHAR(255),
+    Postal_Code VARCHAR(255),
+    Phone VARCHAR(255),
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP,
+    Division_ID BIGINT FOREIGN KEY
+);
+
+-- DIVISIONS Table
+CREATE TABLE DIVISIONS (
+    Division_ID BIGINT PRIMARY KEY,
+    Division_Name VARCHAR(255),
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP,
+    Country_ID BIGINT FOREIGN KEY
+);
+
+-- COUNTRIES Table
+CREATE TABLE COUNTRIES (
+    Country_ID BIGINT PRIMARY KEY,
+    Country_Name VARCHAR(255),
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP
+);
+
+-- CART_ITEMS Table
+CREATE TABLE CART_ITEMS (
+    Cart_Item_ID BIGINT PRIMARY KEY,
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP,
+    Cart_ID BIGINT FOREIGN KEY,
+    Vacation_ID BIGINT FOREIGN KEY
+);
+
+-- Excursion_CartItem Table
+CREATE TABLE excursion_cartitem (
+    Excursion_ID BIGINT FOREIGN KEY,
+    Cart_Item_ID BIGINT FOREIGN KEY
+);
+
+-- EXCURSIONS Table
+CREATE TABLE EXCURSIONS (
+    Excursion_ID BIGINT PRIMARY KEY,
+    Excursion_Name VARCHAR(255),
+    Excursion_Price DOUBLE(10),
+    Image_URL VARCHAR(255),
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP,
+    Vacation_ID BIGINT FOREIGN KEY
+);
+
+-- VACATIONS Table
+CREATE TABLE VACATIONS (
+    Vacation_ID BIGINT PRIMARY KEY,
+    Vacation_Title VARCHAR(255),
+    Description VARCHAR(255),
+    Travel_Fare_Price DOUBLE(10),
+    Image_URL VARCHAR(255),
+    Create_Date TIMESTAMP,
+    Last_Update TIMESTAMP
+);
